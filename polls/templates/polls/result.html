@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Результат</title>
+                {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type = "text/css"/>
+
+        <link href="{% static 'css/navbar.css' %}" rel="stylesheet" type = "text/css">
+        <script>
+        function printit(){
+        window.print();
+        }
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+        </script>
+    </head>
+    <body>
+    <div class="container">
+      {% csrf_token %}
+      <div class="page-header">
+        <h4>{{position}} {{fio}}</h4>
+      </div>
+
+      <h3>Сумма верных ответов: {{summa_true_answer}}</h3>
+
+      <h3>Сумма отрицательных ответов: {{summa_false_answer}}</h3><br>
+
+      <a class="btn btn-default" href="/logout"> Выход </a>
+      <input class="btn btn-default" VALUE="Печать" onClick="printit()">
+
+      <div class="page-header">
+      <h3>Правильные ответы:</h3>
+      </div>
+            {% for quest in all_questions %}
+                {% for key in answer_key %}
+                    {% if quest.id == key %}
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                      <h4 class="panel-title" >{{ quest.text }}</h4>
+                      </div>
+                           <div class="panel-body"> Правильные ответы:</div>
+                        {% for answer in quest.answer_set.all %}
+                                {% if answer.answer_true == 1 %}
+                                    <div class="panel-body"><li>{{ answer.answer }}</li></div>
+                                {% endif %}
+                        {% endfor %}
+                          <div class="panel-body"> Ответы пользователя:</div>
+                        {% for answer in quest.answer_set.all %}
+                                {% if answer.id in answer_values %}
+                                    <div class="panel-body"><li type="circle">{{ answer.answer }}</li></div>
+                                {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div> <!-- /container -->
+    </body>
+</html>

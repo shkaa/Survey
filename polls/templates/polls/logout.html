@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Выход</title>
+                        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type = "text/css"/>
+
+        <link href="{% static 'css/navbar.css' %}" rel="stylesheet" type = "text/css">
+
+    </head>
+    <body class="layer">
+        <form action='{% url 'login' %}' method='post'>
+            <h2 class="form-signin-heading"><center> До встречи ! </center></h2><br>
+            <center><a class="btn btn-primary" href="/login"> Авторизруйся </a></center>
+        </form>
+    </body>
+</html>

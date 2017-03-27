@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Тестирование</title>
+        {% load staticfiles %}
+        <script>
+
+            window.onload = function(){ 
+             
+                function timer(){
+             
+                    var minute = document.getElementById('minute').innerHTML;
+                    var second = document.getElementById('second').innerHTML;
+                    var end = false;
+                     
+                    if( second > 0 ) second--;
+                    else{
+                        second = 60;
+                         
+                        if( minute > 0 ) minute--;
+                        else{
+                            second = 60;
+                            end = true;
+                        }
+                    }
+             
+                    if(end){
+                        clearInterval(intervalID);
+                        alert("Время на выполнение теста закончено !");
+                        document.getElementById('btn1').click();
+
+                    }else{
+                        document.getElementById('minute').innerHTML = minute;
+                        document.getElementById('second').innerHTML = second;
+                    }
+                }
+                window.intervalID = setInterval(timer, 1000);
+            }
+    </script>
+    <style>
+   .layer {
+            padding: 20px;
+           }
+    #timer{
+        margin: 20px auto;
+        text-align: center;
+        color: #333;
+        font-family: fantasy;
+        font-size: 40px;
+        cursor: default;
+        }
+         
+        #timer div{
+        display: inline;
+        }
+    </style>
+    </head>
+    <body class="layer">
+
+            <div id="timer">
+            <div id="minute">30</div>&nbsp;:
+            <div id="second">15</div>
+            </div>
+
+            <form method = 'POST'>
+            {% csrf_token %}
+            <p>{{username}}</p>
+                    {% for quest in questions %}
+                    <div>
+                    <h1>{{ quest.text }}</h1>
+                    </div>
+                    {% for answer in quest.answer_set.all %}
+                    <input type="checkbox" name="answer" value="{{quest.id}}@{{answer.id}}" id="answer{{ forloop.counter }}" />
+                    <label for="answer{{ forloop.counter }}">
+                        {{ answer.answer }}
+                    </label><br>
+                    {% endfor %}
+                    
+                    {% endfor %}
+
+                <br><button id="btn1" type="submit" >Готово !</button>
+
+            </form><br>
+             <a href="/logout">logout</a>
+            
+    </body>
+</html>

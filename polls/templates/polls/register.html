@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Регистрация</title>
+        {% load staticfiles %}
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type = "text/css"/>
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet" type = "text/css">
+
+  </head>
+  </head>
+  <body>
+    <div class="container">
+    <form action="" form class="form-signin" method="post">
+    <h2 class="form-signin-heading"><center> Регистрация </center></h2><br>
+        {% csrf_token %}
+        {% load bootstrap3 %}
+        {% bootstrap_form form %}
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+    </form>
+    </div>
+  </body>
+</html>
